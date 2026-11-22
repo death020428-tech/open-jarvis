@@ -1,5 +1,7 @@
 package com.openjarvis.mcp
 
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.toRequestBody
 import com.openjarvis.llm.HttpClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
