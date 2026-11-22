@@ -4,7 +4,7 @@ import androidx.room.*
 
 @Dao
 interface TaskNodeDao {
-    @Query("SELECT * FROM task_nodes ORDER BY timestamp DESC LIMIT :limit")
+    @Query("SELECT * FROM task_nodes WHERE command = :command ORDER BY timestamp DESC LIMIT :limit")
     suspend fun getRecentTasks(limit: Int): List<TaskNode>
     
     @Query("SELECT * FROM task_nodes ORDER BY timestamp DESC LIMIT :limit")
