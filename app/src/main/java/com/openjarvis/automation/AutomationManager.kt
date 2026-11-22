@@ -12,7 +12,14 @@ import java.util.concurrent.TimeUnit
 class AutomationManager(private val context: Context) {
     
     private val db = AutomationDB.getInstance(context)
-    private val dao = db.automationDao()
+        private val entityDao = db.automationDao()
+    private val dao = object {
+        suspend fun getAll(): List<Automation> = entityDao.getAll().map { it.toAutomation() }
+        suspend fun getById(id: String): Automation? = entityDao.getById(id)?.toAutomation()
+        suspend fun insert(a: Automation) = entityDao.insert(a.toEntity())
+        suspend fun update(a: Automation) = entityDao.update(a.toEntity())
+        suspend fun delete(id: String) = entityDao.delete(id)
+    }
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     
     private val _automationsFlow = MutableStateFlow<List<Automation>>(emptyList())
